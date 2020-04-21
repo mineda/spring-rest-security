@@ -1,0 +1,5 @@
+ports:
+  - port: 8080
+tasks:
+  - init: ./mvnw spring-boot:run
+image: gitpod/workspace-mysql
