@@ -1,3 +1,5 @@
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mineda/spring-rest-security) 
+
 # spring-rest-security
 
 Projeto exemplo contendo uma API REST criada usando Spring Boot e Spring Data JPA. A autenticação/autorização é realizada pelo Spring Security e utiliza JWT.
