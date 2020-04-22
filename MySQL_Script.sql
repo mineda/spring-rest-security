@@ -1,50 +1,54 @@
-CREATE SCHEMA ESTOQUE;
+create schema anotacao;
 
-USE ESTOQUE;
+use anotacao;
 
-CREATE TABLE USR_USUARIO (
-  USR_ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  USR_NOME VARCHAR(20) NOT NULL,
-  USR_SENHA VARCHAR(50) NOT NULL,
-  PRIMARY KEY (USR_ID),
-  UNIQUE KEY UNI_USUARIO_NOME (USR_NOME)
+create user 'user'@'localhost' identified by 'pass123';
+
+grant select, insert, delete, update on anotacao.* to user@'localhost';
+
+create table usr_usuario (
+  usr_id bigint unsigned not null auto_increment,
+  usr_nome varchar(20) not null,
+  usr_senha varchar(50) not null,
+  primary key (usr_id),
+  unique key uni_usuario_nome (usr_nome)
 );
 
-CREATE TABLE AUT_AUTORIZACAO (
-  AUT_ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUT_NOME VARCHAR(20) NOT NULL,
-  PRIMARY KEY (AUT_ID),
-  UNIQUE KEY UNI_AUT_NOME (AUT_NOME)
+create table aut_autorizacao (
+  aut_id bigint unsigned not null auto_increment,
+  aut_nome varchar(20) not null,
+  primary key (aut_id),
+  unique key uni_aut_nome (aut_nome)
 );
 
-CREATE TABLE UAU_USUARIO_AUTORIZACAO (
-  USR_ID BIGINT UNSIGNED NOT NULL,
-  AUT_ID BIGINT UNSIGNED NOT NULL,
-  PRIMARY KEY (USR_ID, AUT_ID),
-  FOREIGN KEY AUT_USUARIO_FK (USR_ID) REFERENCES USR_USUARIO (USR_ID) ON DELETE RESTRICT ON UPDATE CASCADE,
-  FOREIGN KEY AUT_AUTORIZACAO_FK (AUT_ID) REFERENCES AUT_AUTORIZACAO (AUT_ID) ON DELETE RESTRICT ON UPDATE CASCADE
+create table uau_usuario_autorizacao (
+  usr_id bigint unsigned not null,
+  aut_id bigint unsigned not null,
+  primary key (usr_id, aut_id),
+  foreign key aut_usuario_fk (usr_id) references usr_usuario (usr_id) on delete restrict on update cascade,
+  foreign key aut_autorizacao_fk (aut_id) references aut_autorizacao (aut_id) on delete restrict on update cascade
 );
 
-CREATE TABLE ANT_ANOTACAO (
-  ANT_ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  ANT_ASSUNTO VARCHAR(100) NOT NULL,
-  ANT_TEXTO VARCHAR(500) NOT NULL,
-  ANT_DATA_HORA DATETIME NOT NULL,
-  USR_CRIACAO_ID BIGINT UNSIGNED NOT NULL,
-  PRIMARY KEY (ANT_ID),
-  FOREIGN KEY ANT_USR_FK (USR_CRIACAO_ID) REFERENCES USR_USUARIO(USR_ID) ON DELETE RESTRICT ON UPDATE CASCADE
+create table ant_anotacao (
+  ant_id bigint unsigned not null auto_increment,
+  ant_assunto varchar(100) not null,
+  ant_texto varchar(500) not null,
+  ant_data_hora datetime not null,
+  usr_criacao_id bigint unsigned not null,
+  primary key (ant_id),
+  foreign key ant_usr_fk (usr_criacao_id) references usr_usuario(usr_id) on delete restrict on update cascade
 );
 
-INSERT INTO USR_USUARIO(USR_NOME, USR_SENHA) VALUES('teste', CONCAT('{MD5}', MD5('teste')));
-INSERT INTO USR_USUARIO(USR_NOME, USR_SENHA) VALUES('admin', CONCAT('{MD5}', MD5('admin')));
-INSERT INTO AUT_AUTORIZACAO(AUT_NOME) VALUES('ROLE_USUARIO');
-INSERT INTO AUT_AUTORIZACAO(AUT_NOME) VALUES('ROLE_ADMIN');
-INSERT INTO UAU_USUARIO_AUTORIZACAO(USR_ID, AUT_ID)
-SELECT USR_ID, AUT_ID
-FROM USR_USUARIO, AUT_AUTORIZACAO
-WHERE USR_NOME = 'teste'
-AND AUT_NOME = 'ROLE_USUARIO';
-INSERT INTO UAU_USUARIO_AUTORIZACAO(USR_ID, AUT_ID)
-SELECT USR_ID, AUT_ID
-FROM USR_USUARIO, AUT_AUTORIZACAO
-WHERE USR_NOME = 'admin';
+insert into usr_usuario(usr_nome, usr_senha) values('teste', concat('{MD5}', md5('teste')));
+insert into usr_usuario(usr_nome, usr_senha) values('admin', concat('{MD5}', md5('admin')));
+insert into aut_autorizacao(aut_nome) values('ROLE_USUARIO');
+insert into aut_autorizacao(aut_nome) values('ROLE_ADMIN');
+insert into uau_usuario_autorizacao(usr_id, aut_id)
+select usr_id, aut_id
+from usr_usuario, aut_autorizacao
+where usr_nome = 'teste'
+and aut_nome = 'ROLE_USUARIO';
+insert into uau_usuario_autorizacao(usr_id, aut_id)
+select usr_id, aut_id
+from usr_usuario, aut_autorizacao
+where usr_nome = 'admin';

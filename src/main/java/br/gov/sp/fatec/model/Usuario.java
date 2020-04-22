@@ -13,10 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,8 +22,6 @@ import br.gov.sp.fatec.view.View;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "USR_USUARIO")
 public class Usuario implements UserDetails{
@@ -53,7 +47,6 @@ public class Usuario implements UserDetails{
     	joinColumns = { @JoinColumn(name = "USR_ID") }, 
     	inverseJoinColumns = { @JoinColumn(name = "AUT_ID") })
     @JsonView({View.UsuarioResumo.class, View.UsuarioResumoAlternativo.class})
-    @XmlElement(name = "autorizacao")
     private List<Autorizacao> autorizacoes;
 
 	public Long getId() {

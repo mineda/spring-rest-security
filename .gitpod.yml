@@ -1,3 +1,5 @@
+ports:
+  - port: 8080
 tasks:
-  - init: ./mvnw install -DskipTests=false
+  - init: ./mvnw spring-boot:run
 image: gitpod/workspace-mysql
