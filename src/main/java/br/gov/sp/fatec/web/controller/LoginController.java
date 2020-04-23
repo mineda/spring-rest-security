@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,17 +25,6 @@ public class LoginController {
     
     @Autowired
     private AuthenticationManager auth;
-    
-    @Autowired
-    private UserDetailsService segurancaService;
-
-    public void setAuth(AuthenticationManager auth) {
-        this.auth = auth;
-    }
-    
-    public void setSegurancaService(UserDetailsService segurancaService) {
-    	this.segurancaService = segurancaService;
-    }
     
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @CrossOrigin(exposedHeaders = "Token")
