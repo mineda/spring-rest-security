@@ -1,5 +1,5 @@
 ports:
   - port: 8080
 tasks:
-  - init: ./mvnw spring-boot:run
+  - init: mysql < MySQL_Script.sql
 image: gitpod/workspace-mysql
